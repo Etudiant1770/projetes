@@ -1,0 +1,265 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>FSSM Q&A</title>
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+    <script src="https://kit.fontawesome.com/5135d630a7.js" crossorigin="anonymous"></script>
+
+    <style>
+        /* Notification button */
+        .notification {
+            background-color: #0d6efd;
+            color: white;
+            text-decoration: none;
+            padding: 4px 24px;
+            margin-right: 20px;
+            margin-left: 20px;
+            position: relative;
+            display: inline-block;
+            border-radius: 2px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        /* Hover effect on notification button */
+        .notification:hover {
+            background: #0b5ed7;
+            color: #fff;
+        }
+
+        /* Hide dropdown toggle arrow */
+        .notification-section .dropdown-toggle::after {
+            content: none;
+        }
+
+        /* Badge styles */
+        .notification .badge {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            padding: 7px 7px;
+            border-radius: 50%;
+            background: rgb(241, 112, 112);
+            color: white;
+            font-size: 10px;
+        }
+
+        /* Dropdown menu container */
+        #notifications-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 50px;
+            z-index: 1000; /* Ensure dropdown appears above other elements */
+            display: none; /* Hide dropdown by default */
+            background-color: #fff;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            border-radius: 4px;
+            min-width: 15rem; /* Adjust as needed */
+        }
+
+        /* Show dropdown when hovering over notification button */
+        .notification-section:hover #notifications-dropdown {
+            display: block;
+        }
+
+        /* Dropdown menu items */
+        .dropdown-item {
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Hover effect on dropdown items */
+        .dropdown-item:hover {
+            background-color: #f8f9fa; /* Light grey background on hover */
+            color: #000; /* Black text color on hover */
+        }
+
+        /* Divider style */
+        .dropdown-divider {
+            border-top: 1px solid #ccc;
+            margin: 5px 0;
+        }
+        .logo-img {
+            width: 40px; /* Largeur du logo */
+            height: 40px; /* Hauteur du logo */
+            margin-right: 10px; /* Marge à droite pour l'espacement */
+            border-radius: 5%; /* Bordure arrondie (si nécessaire) */
+            /* Autres styles de votre choix */
+        }
+    </style>
+
+    {% block css %} {% endblock %}
+</head>
+<body>
+<header>
+    <div class="nav-container">
+        <nav>
+            <div class="nav-brand">
+                <div class="hamburger-menu-container">
+                    <div class="hamburger-menu">
+                        <div class="line"></div>
+                        <div class="line"></div>
+                        <div class="line"></div>
+                    </div>
+                    <div class="nav-dropdown-menu">
+                        <a href="#" class="current-link">Home</a>
+                        <h5>Public</h5>
+                        <ul class="nav-ul">
+                            <li class="nav-item">
+                                <i class="fas fa-globe-europe"></i>
+                                <a href="#" class="nav-link">Q&A</a>
+                            </li>
+                            <li class="nav-item"><a href="{% url 'stackbase:tags' %}" class="nav-link">Tags</a></li>
+                            <li class="nav-item"><a href="{% url 'user_list' %}" class="nav-link">Users</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <a href="{% url 'stackbase:home' %}" class="nav-icon" style="text-decoration: none; color: black;">
+                    <img src="{% static 'logo.jpg' %}" alt="Logo" class="logo-img">
+                    <div class="nav-icon-text">FSSM <span class="nav-bold-text">Q&A</span></div>
+                </a>
+            </div>
+            <div class="nav-base-links">
+                <ul>
+                    <li><a href="{% url 'stackbase:faculty_home' %}">acceuil</a></li>
+                </ul>
+            </div>
+            <div class="nav-search">
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <form action="" method="GET">
+                        <input type="text" id="search-area" name="search-area" placeholder="Recherche...">
+                        <button type="submit" style="margin-left: 340px; border-radius: 25px; border: none; padding: 8px;">Recherche</button>
+                    </form>
+                </div>
+
+                <div class="search-hints">
+                    <div class="search-arrow-up"></div>
+                    <div class="search-hint-body">
+                        <div class="hints-grid-column">
+                            <div class="hint-text"><span>[tag] </span>rechercher dans une balise</div>
+                            <div class="hint-text"><span>utilisateur:1234</span>recherche par auteur</div>
+                            <div class="hint-text"><span>"mots ici"</span>expression exacte</div>
+                        </div>
+                        <div class="hints-grid-column">
+                            <div class="hint-text"><span>réponses:0 </span>questions sans réponse</div>
+                            <div class="hint-text"><span>score:3</span>publications avec un score de 3+</div>
+                        </div>
+                    </div>
+                    <div class="search-hint-footer">
+                        <a href="#" class="btn">Poser une question</a>
+                        <a href="#" class="search-help">Aide à la recherche</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-right-buttons">
+                <div class="search-btn">
+                    <i class="fas fa-search"></i>
+                </div>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'profile' %}" class="btn btn-login">Profile</a>
+                    <a href="{% url 'logout' %}" class="btn btn-register">Logout</a>
+                    <li class="nav-item dropdown notification-section">
+                        <a href="#" class="notification dropdown-toggle" id="navbarDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="true">
+                            <span><i class="fa fa-bell"></i></span>
+                            <span class="badge" id="notification-badge">0</span>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="notifications-dropdown"
+                            data-popper-placement="bottom-end">
+                            {% for i in notifications %}
+                                <li class="dropdown-item">{{ i.message }}</li>
+                                <hr class="dropdown-divider">
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-login">Log in</a>
+                    <a href="{% url 'register' %}" class="btn btn-register">Sign up</a>
+                {% endif %}
+            </div>
+        </nav>
+
+        {{ room_name|json_script:"room-name" }}
+
+        <script>
+            function fetchNotifications() {
+                fetch("{% url 'get_notifications' %}")
+                    .then(response => response.json())
+                    .then(data => {
+                        const notificationsDropdown = document.getElementById("notifications-dropdown");
+                        const notificationBadge = document.getElementById("notification-badge");
+
+                        notificationsDropdown.innerHTML = ''; // Clear existing notifications
+
+                        data.forEach(notification => {
+                            const listItem = document.createElement('li');
+                            listItem.classList.add('dropdown-item');
+                            listItem.textContent = notification.message;
+                            notificationsDropdown.appendChild(listItem);
+                            const divider = document.createElement('hr');
+                            divider.classList.add('dropdown-divider');
+                            notificationsDropdown.appendChild(divider);
+                        });
+
+                        notificationBadge.textContent = data.length; // Update the badge count
+                    });
+            }
+
+            // Fetch notifications every 5 seconds
+            setInterval(fetchNotifications, 5000);
+
+            // Initial fetch
+            fetchNotifications();
+        </script>
+
+        <div style="margin-top: 10px;">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}" role="alert">
+                        <h4 style="text-align: center;">{{ message }}</h4>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</header>
+{% block content %}
+{% endblock %}
+<footer class="footer">
+    <img src="https://cdn.sstatic.net/Img/home/robot.svg?v=dfa16a330cbd" alt="" class="footer-robot-img">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-icon">
+                <img src="{% static 'logo.jpg' %}" alt="Logo" class="logo-img">
+            </div>
+            <div class="footer-nav">
+                <div class="footer-nav-col">
+                    <div class="footer-links-title"><a href="#">FSSM Q&A</a></div>
+                    <ul class="footer-links">
+                        <li class="footer-link-item"><a href="#" class="footer-link">Questions</a></li>
+                        <li class="footer-link-item"><a href="#" class="footer-link">Désactiver la Réactivité</a></li>
+                    </ul>
+                </div>
+                <div class="footer-nav-col">
+                    <div class="footer-links-title"><a href="#">Produits</a></div>
+                    <ul class="footer-links">
+                        <li class="footer-link-item"><a href="#" class="footer-link">Équipes</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="{% static 'main.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
+</body>
+</html>

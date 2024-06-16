@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page d'accueil - Faculté des Sciences Semlalia</title>
+    <style>
+        /* Styles CSS intégrés */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            text-align: justify;
+            margin-bottom: 20px;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 20px;
+        }
+
+        .gallery img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Bienvenue à la Faculté des Sciences Semlalia</h1>
+    <p>La Faculté des Sciences Semlalia de Marrakech (FSSM) est l'une des institutions académiques les plus renommées au Maroc, offrant une large gamme de programmes éducatifs de haute qualité dans le domaine des sciences fondamentales et appliquées. Fondée en 1974, la FSSM a acquis une réputation solide pour son excellence académique, sa recherche innovante et son engagement envers le développement socio-économique de la région et du pays.
+
+Les filières proposées à la FSSM couvrent divers domaines des sciences mathématiques, physiques, chimiques, biologiques et informatiques, adaptées aux besoins actuels du marché du travail et aux défis scientifiques contemporains. Parmi les filières les plus populaires figurent les mathématiques appliquées, la physique, la chimie, la biologie, l'informatique et les sciences de la terre et de l'environnement. Chaque programme est conçu pour offrir aux étudiants une base solide en théorie et en pratique, avec un accent particulier sur l'innovation, la résolution de problèmes et la préparation aux carrières dans divers secteurs industriels et académiques.
+
+En plus de l'enseignement en classe, la FSSM encourage activement la recherche scientifique à travers ses laboratoires bien équipés et ses collaborations internationales. Les étudiants ont l'opportunité de s'engager dans des projets de recherche sous la supervision de professeurs experts, contribuant ainsi à l'avancement des connaissances dans leurs domaines respectifs. De plus, la faculté organise régulièrement des conférences, des ateliers et des événements académiques pour promouvoir le dialogue scientifique et permettre aux étudiants de se connecter avec des leaders d'opinion dans leurs domaines d'intérêt.</p>
+    
+    <!-- Ajoutez ici des informations sur la faculté -->
+    
+    <!--<h2>Photos</h2>-->
+    <div class="gallery">
+        <img src="{% static '67316171-47634593.jpg' %}" alt="Photo 1">
+        <img src="{% static 'caddi-Aayad.jpg'%}" alt="Photo 2">
+        <img src="{% static 'la-Faculte-des-sciences-Semlalia.jpg' %}" alt="Photo 3">
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Badge Detail</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f6f6f6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #0077cc;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        li:hover {
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-profile {
+            font-weight: bold;
+            color: #0077cc;
+            display: flex;
+            align-items: center;
+        }
+
+        .user-profile img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .gold {
+            background-color: gold;
+        }
+
+        .silver {
+            background-color: silver;
+        }
+
+        .bronze {
+            background-color: #cd7f32; /* bronze */
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        .awarded {
+            font-size: 14px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>{{ badge.name }}</h1>
+    <p> {{ badge.description }}</p>
+
+    <!--<h2>Utilisateurs avec leurs questions ou réponses associées</h2>-->
+    <ul>
+        {% for user_data in users_with_content %}
+        <li>
+            <p class="awarded">Awarded on {{ awarded_at }}to</p>            <a href="{{ user_data.user.profile.get_absolute_url }}" class="user-profile">
+                <img src="{{ user_data.user.profile.image.url }}" alt="Profile Image">
+                {{ user_data.user.username }}
+            </a><br>
+            Questions: {{ user_data.questions }}<br>
+            Réponses: {{ user_data.answers }}<br>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <div class="circle gold"></div>  Badges Gold: {{ gold_badges_count }}<br>
+    <div class="circle silver"></div>  Badges Silver: {{ silver_badges_count }}<br>
+    <div class="circle bronze"></div>  Badges Bronze: {{ bronze_badges_count }}<br>
+</div>
+
+</body>
+</html>

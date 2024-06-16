@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
+    <title>Logout Page</title>
+    <style>
+        body {
+            background: linear-gradient(230deg, orange 0%, yellow 100%);
+            font-family: 'Poppins', sans-serif;
+        }
+        .containerr {
+            margin-top: 100px;
+            margin-bottom: 130px;
+            text-align: center;
+        }
+        #logoutid1 {
+            font-size: 30px;
+            color: black;
+            font-weight: 600;
+        }
+        #logout-btn {
+            display: inline-block;
+            margin-top: 20px;
+        }
+        #logout-btn a {
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="containerr">
+        <h3 id="logoutid1">You have been logged out!!</h3>
+
+        <div>
+            <button class="btn btn-primary" id="logout-btn"><a id="fa" href="{% url 'login' %}">LOGIN</a></button>
+        </div>
+    </div>
+</body>
+</html>

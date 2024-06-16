@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List - Stack Overflow Style</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e1e1e1;
+            padding-bottom: 10px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            color: #333;
+        }
+
+        .search-form {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-form input[type="text"] {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .search-form button {
+            padding: 10px 20px;
+            font-size: 14px;
+            background-color: #0a95ff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .search-form button:hover {
+            background-color: #007ace;
+        }
+
+        .user-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .user-item {
+            padding: 15px;
+            border: 1px solid #e1e1e1;
+            border-radius: 4px;
+            background-color: #fafafa;
+            margin-bottom: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .user-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .user-details h2 {
+            margin: 0;
+            font-size: 18px;
+            color: #0a95ff;
+        }
+
+        .user-details p {
+            margin: 5px 0 0;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Liste des utilisateurs</h1>
+            <form method="get" class="search-form">
+                {{ form.as_p }}
+                <button type="submit">Recherche</button>
+            </form>
+        </header>
+        
+        <main>
+            {% if all_users %}
+                <ul class="user-list">
+                    {% for user in all_users %}
+                        <li class="user-item">
+                            <div class="user-details">
+                                <h2>{{ user.username }}</h2>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No users found.</p>
+            {% endif %}
+        </main>
+    </div>
+</body>
+</html>

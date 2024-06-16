@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Badges de {{ user.username }}</h2>
+  <ul>
+    {% for user_badge in user_badges %}
+      <li>
+        <img src="{{ user_badge.badge.image.url }}" alt="{{ user_badge.badge.name }}">
+        <p>{{ user_badge.badge.name }}</p>
+        <p>{{ user_badge.badge.description }}</p>
+        <p>Reçu le : {{ user_badge.date_awarded }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300;1,400;1,500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin-top: 100px;
+            font-family: 'Poppins', sans-serif;
+        }
+        #fh1 {
+            margin-top: 20px;
+        }
+        #sub-nav {
+            display: flex;
+            justify-content: space-between;
+        }
+        #logout-btn {
+            background-color: rgb(122, 167, 248);
+        }
+        #fh3 {
+            text-align: left;
+            font-size: 19px;
+            padding-top: 15px;
+        }
+        @media screen and (max-width: 600px) {
+            #fh3 {
+                font-size: 15px;
+                text-align: left;
+            }
+        }
+        #fh6 {
+            text-align: right;
+            font-size: 15px;
+            font-weight: normal;
+        }
+        @media screen and (max-width: 600px) {
+            #fh6 {
+                font-size: 15px;
+                text-align: right;
+                font-weight: normal;
+            }
+        }
+        .tag {
+            display: inline-block;
+            text-align: left;
+            font-size: 13px;
+            padding: 2px 8px;
+            margin-right: 5px;
+            color: rgb(223, 223, 223);
+            height: auto;
+            font-weight: normal;
+            background-color: rgb(158, 158, 158);
+            border-radius: 20px;
+            text-decoration: none;
+        }
+        .tag:hover {
+            background-color: rgb(123, 123, 123);
+        }
+        @media screen and (max-width: 600px) {
+            .tag {
+                font-size: 10px;
+            }
+        }
+        a {
+            color: rgb(0, 132, 255);
+        }
+        a:hover {
+            text-decoration: none;
+            color: darkblue;
+        }
+        h5 {
+            color: rgb(133, 133, 133);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="sub-nav">
+            <h1 id="fh1">Questions</h1>
+            {% if user.is_authenticated %}
+            <button class="btn" id="logout-btn"><a id="fa" href="{% url 'stackbase:question-create' %}" style="color: white; text-decoration: none;">Poser une Question</a></button>
+            {% else %}
+            <button class="btn" id="logout-btn"><a id="fa" href="" style="color: white; text-decoration: none;">Poser une Question</a></button>
+            {% endif %}
+        </div>
+        <div class="list-question">
+            <div class="questions">
+                {% for question in questions %}
+                <div class="container" style="background: linear-gradient(to right, rgb(175, 235, 236), rgba(255, 166, 0, 0.027)); padding: 5px; box-shadow: rgba(0, 0, 0, 0.383) 0px 5px 5px 0px; border-radius: 15px;">
+                    <div id="title-sec" style="display: flex; align-items: center;">
+                        <h3 id="fh3"><a href="{% url 'stackbase:question-detail' question.id %}">{{ question.title }}</a></h3>
+                    </div>
+                    <hr>
+                    {% if question.content|wordcount <= 10 %}
+                    <h6 id="fh6" style="text-align: left;">{{ question.content }}</h6>
+                    {% else %}
+                    <h3 id="fh6" style="text-align: left;">{{ question.content|truncatewords:10 }} <a href="{% url 'stackbase:question-detail' question.id %}">lire plus</a></h3>
+                    {% endif %}
+                    <h6 id="fh6" style="font-size: 10px; font-style: italic; color: rgb(155, 155, 155);">Demandé par: <a href=""{% url 'profile' %}"">{{ question.user }}</a>&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp; à : {{ question.date_created|date:"j F, Y" }}</h6>
+                    <h5 style="text-align: right; font-size: 12px; font-style: italic;">tags:
+                        {% for tag in question.tags.all %}
+                            <a href="{% url 'stackbase:tagged-questions' tag.name %}" class="tag">{{ tag.name }}</a>
+                        {% endfor %}
+                    </h5>
+                </div> <br>
+                {% endfor %}
+            </div>
+        </div>   
+    </div>
+</body>
+</html>
+{% endblock content %}
